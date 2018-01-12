@@ -1,0 +1,28 @@
+{
+  "name": "trentose2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniele122008/trentose2jan12-dg.git"
+  },
+  "author": "Daniele Giuliani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daniele122008/trentose2jan12-dg.git/issues"
+  },
+  "homepage": "https://github.com/daniele122008/trentose2jan12-dg.git#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "jest": "^21.2.1",
+    "request-promise": "^4.2.2"
+  }
+}
