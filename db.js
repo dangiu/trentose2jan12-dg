@@ -36,7 +36,7 @@ function contains(obj) {
 function getByID(ID) {
     for(var i = 0; i < array.length; i++) {
         var current = array[i];
-        if(current.id === ID) return i;
+        if(current.id === ID) return array[i];
     }
     return null;
 }

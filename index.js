@@ -13,8 +13,26 @@ const BAD_REQUEST = 'Request not valid!';
 /* LISTENERS FOR DIFFERENT METHODS */
 app.get(PATH, function(req, res) {
 
-    res.json(db.getAll());
-    res.status(200);
+    var id;
+    if(req.query.hasOwnProperty('id')) {
+        id = parseInt(req.query.id);
+    }
+
+    if(id !== undefined) {
+        var arr = [];
+        var obj = db.getByID(id);
+        if(obj !== null) {
+            arr.push(obj);
+            res.json(arr);
+            res.status(200);
+        } else {
+            res.json(arr);
+            res.status(404);
+        }
+    } else {
+        res.json(db.getAll());
+        res.status(200);
+    }
 
     return;
 });
