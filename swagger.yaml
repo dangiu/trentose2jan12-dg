@@ -2,17 +2,17 @@ swagger: "2.0"
 info:
   version: 1.0.0
   title: "trentose2jan12-dg"
-  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+  description: Semplice API per la gestione di un insieme di astronauti
   termsOfService: http://swagger.io/terms/
   contact:
-    name: Swagger API Team
-    email: foo@example.com
+    name: Daniele Giuliani
+    email: daniele.giuliani@studenti.unitn.it
     url: http://madskristensen.net
   license:
     name: MIT
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: petstore.swagger.io
-basePath: /api
+host: trentose2jan12-dg.herokuapp.com
+basePath: /api/v1/
 schemes:
   - http
 consumes:
@@ -20,120 +20,92 @@ consumes:
 produces:
   - application/json
 paths:
-  /pets:
+  /astronauts:
     get:
       description: |
-        Returns all pets from the system that the user has access to
-        Nam sed condimentum est. Maecenas tempor sagittis sapien, nec rhoncus sem sagittis sit amet. Aenean at gravida augue, ac iaculis sem. Curabitur odio lorem, ornare eget elementum nec, cursus id lectus. Duis mi turpis, pulvinar ac eros ac, tincidunt varius justo. In hac habitasse platea dictumst. Integer at adipiscing ante, a sagittis ligula. Aenean pharetra tempor ante molestie imperdiet. Vivamus id aliquam diam. Cras quis velit non tortor eleifend sagittis. Praesent at enim pharetra urna volutpat venenatis eget eget mauris. In eleifend fermentum facilisis. Praesent enim enim, gravida ac sodales sed, placerat id erat. Suspendisse lacus dolor, consectetur non augue vel, vehicula interdum libero. Morbi euismod sagittis libero sed lacinia.
-        Sed tempus felis lobortis leo pulvinar rutrum. Nam mattis velit nisl, eu condimentum ligula luctus nec. Phasellus semper velit eget aliquet faucibus. In a mattis elit. Phasellus vel urna viverra, condimentum lorem id, rhoncus nibh. Ut pellentesque posuere elementum. Sed a varius odio. Morbi rhoncus ligula libero, vel eleifend nunc tristique vitae. Fusce et sem dui. Aenean nec scelerisque tortor. Fusce malesuada accumsan magna vel tempus. Quisque mollis felis eu dolor tristique, sit amet auctor felis gravida. Sed libero lorem, molestie sed nisl in, accumsan tempor nisi. Fusce sollicitudin massa ut lacinia mattis. Sed vel eleifend lorem. Pellentesque vitae felis pretium, pulvinar elit eu, euismod sapien.
-      operationId: findPets
+        Ritorna la lista di tutti gli astronauti.
       parameters:
-        - name: tags
+        - name: lastName
           in: query
-          description: tags to filter by
+          description: Filtro per cognome
           required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
-        - name: limit
+          type: string
+        - name: id
           in: query
-          description: maximum number of results to return
+          description: Filtro per ID
           required: false
           type: integer
           format: int32
       responses:
         200:
-          description: pet response
+          description: Lista degli asronauti
           schema:
             type: array
             items:
-              $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+              $ref: '#/definitions/astronauts'
     post:
-      description: Creates a new pet in the store.  Duplicates are allowed
-      operationId: addPet
+      description: Inserisce la entry per un nuovo astronauta
       parameters:
-        - name: pet
+        - name: astronaut
           in: body
-          description: Pet to add to the store
+          description: Astronauta da aggiungere
           required: true
           schema:
-            $ref: '#/definitions/NewPet'
+            $ref: '#/definitions/newAstronaut'
       responses:
         200:
-          description: pet response
-          schema:
-            $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /pets/{id}:
-    get:
-      description: Returns a user based on a single ID, if the user does not have access to the pet
-      operationId: find pet by id
+          description: "Astronauta aggiunto con ID: 500"
+    put:
+      description: Modifica la entry di un terterminato astronauta
       parameters:
-        - name: id
-          in: path
-          description: ID of pet to fetch
+        - name: astronaut
+          in: body
+          description: Astronauta da modificare
           required: true
-          type: integer
-          format: int64
+          schema:
+            $ref: '#/definitions/editAstronaut'
       responses:
         200:
-          description: pet response
-          schema:
-            $ref: '#/definitions/Pet'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    delete:
-      description: deletes a single pet based on the ID supplied
-      operationId: deletePet
-      parameters:
-        - name: id
-          in: path
-          description: ID of pet to delete
-          required: true
-          type: integer
-          format: int64
-      responses:
-        204:
-          description: pet deleted
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
+          description: "Astronauta modificato!"
+        404:
+          description: "Astronauta non trovato!"
 definitions:
-  Pet:
-    allOf:
-      - $ref: '#/definitions/NewPet'
-      - required:
-        - id
-        properties:
-          id:
-            type: integer
-            format: int64
-  NewPet:
+  astronauts:
     required:
-      - name
+      - id
+      - firstName
+      - lastName
+      - isInSpace
     properties:
-      name:
-        type: string
-      tag:
-        type: string
-  Error:
-    required:
-      - code
-      - message
-    properties:
-      code:
+      id:
         type: integer
-        format: int32
-      message:
+      firstName:
         type: string
+      lastName:
+        type: string
+      isInSpace:
+        type: boolean
+  newAstronaut:
+    required:
+      - firstName
+      - lastName
+      - isInSpace
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      isInSpace:
+        type: boolean
+  editAstronaut:
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+      firstName:
+        type: string
+      lastName:
+        type: string
+      isInSpace:
+        type: boolean
