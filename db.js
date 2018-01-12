@@ -73,6 +73,16 @@ function update(obj) {
     return false;
 }
 
+function getByLastName(lastName) {
+    var res = [];
+    for(var i = 0; i < array.length; i++) {
+        var current = array[i];
+        if(current.lastName.localeCompare(lastName) === 0) res.push(current);
+    }
+    return res;
+}
+
+
 function size() {
     return array.length;
 }
@@ -82,5 +92,6 @@ module.exports = {
     getByID:getByID,
     getAll:getAll,
     size:size,
-    update:update
+    update:update,
+    getByLastName:getByLastName
 };

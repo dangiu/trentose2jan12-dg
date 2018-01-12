@@ -18,6 +18,10 @@ app.get(PATH, function(req, res) {
     if(req.query.hasOwnProperty('id')) {
         id = parseInt(req.query.id);
     }
+    var lastName;
+    if(req.query.hasOwnProperty('lastName')) {
+        lastName = req.query.lastName;
+    }
 
     if(id !== undefined) {
         var arr = [];
@@ -31,8 +35,14 @@ app.get(PATH, function(req, res) {
             res.status(404);
         }
     } else {
-        res.json(db.getAll());
-        res.status(200);
+        if(lastName !== undefined) {
+            var result = db.getByLastName(lastName);
+            res.status(200);
+            res.json(result);
+        } else {
+            res.json(db.getAll());
+            res.status(200);
+        }
     }
 
     return;
