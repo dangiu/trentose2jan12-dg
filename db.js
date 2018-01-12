@@ -62,6 +62,16 @@ function add(obj) {
     return null;
 }
 
+function update(obj) {
+    for(var i = 0; i < array.length; i++) {
+        var current = array[i];
+        if(current.id === obj.id) {
+            array[i] = obj;
+            return true;
+        }
+    }
+    return false;
+}
 
 function size() {
     return array.length;
@@ -71,5 +81,6 @@ module.exports = {
     add:add,
     getByID:getByID,
     getAll:getAll,
-    size:size
+    size:size,
+    update:update
 };

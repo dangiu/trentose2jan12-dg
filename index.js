@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 8080;
 const PATH = '/api/v1/astronauts/';
 
 /* ERROR MESSAGES AND RESPONSES */
-const BAD_REQUEST = 'Request not valid!';
+const BAD_REQUEST = 'Richiesta non valida!';
+const NOT_FOUND = 'Astronauta non trovato!';
 
 /* LISTENERS FOR DIFFERENT METHODS */
 app.get(PATH, function(req, res) {
@@ -51,7 +52,41 @@ app.post(PATH, function(req, res) {
 });
 
 app.put(PATH, function(req, res) {
-    //to implement
+    var jsonBody = req.body;
+    var id, firstName, lastName, isInSpace;
+
+    if(jsonBody.hasOwnProperty("id")) {
+        id = jsonBody.id;
+    }
+    if(jsonBody.hasOwnProperty("firstName")) {
+        firstName = jsonBody.firstName;
+    }
+    if(jsonBody.hasOwnProperty("lastName")) {
+        lastName = jsonBody.lastName;
+    }
+    if(jsonBody.hasOwnProperty("isInSpace")) {
+        isInSpace = jsonBody.isInSpace;
+    }
+
+    var result = db.getByID(id);
+    if(result !== null) {
+        if(firstName !== undefined) {
+            result.firstName = firstName;
+        }
+        if(lastName !== undefined) {
+            result.lastName = lastName;
+        }
+        if(isInSpace !== undefined) {
+            result.isInSpace = isInSpace;
+        }
+
+        res.status(200);
+        res.send("Astronauta modificato!");
+        
+    } else {
+        res.status(404);
+        res.send(NOT_FOUND);
+    }
 });
 
 
